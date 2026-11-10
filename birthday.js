@@ -43,11 +43,37 @@ $("prev").onclick = () => { photoIndex = (photoIndex + photos.length - 1) % phot
 $("next").onclick = () => { photoIndex = (photoIndex + 1) % photos.length; showPhoto(); };
 showPhoto();
 
-$("mus").onclick = () => {
-  const audio = $("au");
-  if (audio.paused) audio.play().then(() => $("mus").textContent = "Pause music").catch(() => {});
-  else { audio.pause(); $("mus").textContent = "Play music"; }
+const audio = $("au");
+const musicButton = $("mus");
+
+function startMusicFromUserAction() {
+  // Call play() directly from a click/tap handler so mobile browsers allow playback.
+  if (!audio || !musicButton) return;
+  const playAttempt = audio.play();
+  if (playAttempt && typeof playAttempt.then === "function") {
+    playAttempt.then(() => {
+      musicButton.textContent = "Pause music";
+      musicButton.setAttribute("aria-pressed", "true");
+    }).catch(() => {
+      musicButton.textContent = "Tap to play music";
+      musicButton.setAttribute("aria-pressed", "false");
+    });
+  }
+}
+
+musicButton.onclick = () => {
+  if (audio.paused) startMusicFromUserAction();
+  else {
+    audio.pause();
+    musicButton.textContent = "Play music";
+    musicButton.setAttribute("aria-pressed", "false");
+  }
 };
+
+audio.addEventListener("error", () => {
+  musicButton.textContent = "Music unavailable";
+  musicButton.title = "Check that assets/music.mp3 is uploaded with the project.";
+});
 
 const nav = $("nav");
 pages.forEach((page, index) => {
@@ -65,7 +91,12 @@ function go(page) {
   $(page).scrollIntoView();
   try { history.replaceState(null, "", "#" + page); } catch (e) {}
 }
-$("start").onclick = () => { go("reasons"); burst(60); };
+$("start").onclick = () => {
+  // The tap on Start the Show is a valid user gesture for starting background music.
+  startMusicFromUserAction();
+  go("reasons");
+  burst(60);
+};
 
 const defaultReasons = [
   ["Your kindness", "You make the people around you feel special."],
