@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Birthday QR Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body{overflow:auto;min-height:100vh;display:block;padding:2rem 1rem}
+.studio{max-width:760px;margin:2rem auto;background:var(--card);border:1px solid var(--mute);border-radius:24px;padding:clamp(1.2rem,4vw,2rem);display:grid;gap:1rem;box-shadow:0 18px 55px #0003}
+.studio h1{font-size:clamp(2rem,8vw,3.6rem)}
+.studio label{display:grid;gap:.4rem;font-weight:600}
+.studio small,.hint{color:var(--mute);font-weight:400}
+.studio button{justify-self:start}
+.result{display:none;gap:1rem;padding:1rem;border:2px dashed var(--gold);border-radius:18px;overflow-wrap:anywhere}
+.result.show{display:grid}.qr{background:white;padding:12px;border-radius:12px;width:max-content;max-width:100%}
+.qr img{display:block;max-width:100%;height:auto}.muted{color:var(--mute)}
+fieldset{border:1px solid var(--mute);border-radius:16px;padding:1rem;display:grid;gap:.8rem}
+legend{font-weight:800;padding:0 .5rem;color:var(--gold)}
+.reason-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.photo-preview{display:flex;flex-wrap:wrap;gap:8px}.photo-preview img{width:76px;height:76px;object-fit:cover;border-radius:10px;border:2px solid var(--gold)}
+@media(max-width:520px){.reason-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<section class="studio">
+<p class="muted">A little surprise, made personal ✨</p>
+<h1>Birthday QR Studio</h1>
+<p class="muted">Create a personalized birthday page and QR code for each friend.</p>
+<form id="birthdayForm" style="display:grid;gap:1rem">
+<label>Friend's name<input name="name" required maxlength="50" placeholder="e.g. Reshma Sree"></label>
+<label>Short introduction<textarea name="intro" rows="2" maxlength="240" placeholder="A little website made just for you..."></textarea></label>
+<label>Personal birthday message<textarea name="message" rows="3" maxlength="500" placeholder="Wishing you a wonderful birthday..."></textarea></label>
+
+<fieldset>
+<legend>Customize the Reasons page</legend>
+<div class="reason-grid">
+<label>Reason 1 title<input name="r1title" maxlength="70" placeholder="Your kindness"></label>
+<label>Reason 1 description<textarea name="r1text" rows="2" maxlength="180" placeholder="You always make people smile."></textarea></label>
+<label>Reason 2 title<input name="r2title" maxlength="70" placeholder="Your creativity"></label>
+<label>Reason 2 description<textarea name="r2text" rows="2" maxlength="180"></textarea></label>
+<label>Reason 3 title<input name="r3title" maxlength="70" placeholder="Our memories"></label>
+<label>Reason 3 description<textarea name="r3text" rows="2" maxlength="180"></textarea></label>
+<label>Reason 4 title<input name="r4title" maxlength="70" placeholder="Your energy"></label>
+<label>Reason 4 description<textarea name="r4text" rows="2" maxlength="180"></textarea></label>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Customize the Gift page</legend>
+<label>Gift page heading<input name="giftTitle" maxlength="80" placeholder="One last thing"></label>
+<label>Gift button text<input name="giftButton" maxlength="60" placeholder="Open your gift"></label>
+<label>Message revealed after clicking<textarea name="gift" rows="3" maxlength="500" placeholder="I wanted to gift you something special..."></textarea></label>
+</fieldset>
+
+<fieldset>
+<legend>Your photo slideshow</legend>
+<p class="hint">Select up to 8 photos. Only these uploaded photos will appear in the birthday slideshow. They are uploaded to your Cloudinary account so your friend can view them from the QR link.</p>
+<label>Select photos<input id="photos" type="file" accept="image/*" multiple required></label>
+<div class="photo-preview" id="photoPreview"></div>
+<label>Cloudinary cloud name<input id="cloudName" required value="ihk8brka" placeholder="Your Cloudinary cloud name"></label>
+<label>Unsigned upload preset<input id="uploadPreset" required value="birthday_photos" placeholder="Your unsigned upload preset"></label>
+<p class="hint">Cloudinary is preconfigured with your cloud name and unsigned preset. Do not enter or share your API secret here.</p>
+</fieldset>
+
+<button id="createButton" type="submit">Upload photos & create birthday QR ✨</button>
+<p id="status" class="hint" role="status"></p>
+</form>
+<div class="result" id="result" aria-live="polite">
+<h2>Your birthday page is ready!</h2><p class="muted">Scan this QR code or share the link with your friend.</p>
+<div class="qr" id="qrcode"></div>
+<p><a id="pageLink" href="#" target="_blank" rel="noopener">Open birthday page</a></p>
+<div class="row"><button type="button" class="ghost" id="copyLink">Copy link</button><button type="button" class="ghost" id="downloadQr">Download QR</button></div>
+</div>
+<p class="muted"><small>Host this folder on GitHub Pages before generating QR codes. Photos are hosted separately on Cloudinary.</small></p>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="generator.js"></script>
+</body></html>
