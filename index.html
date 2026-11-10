@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Birthday QR Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body{overflow:auto;min-height:100vh;display:block;padding:2rem 1rem} .studio{max-width:720px;margin:2rem auto;background:var(--card);border:1px solid var(--mute);border-radius:24px;padding:clamp(1.2rem,4vw,2rem);display:grid;gap:1rem;box-shadow:0 18px 55px #0003}.studio h1{font-size:clamp(2rem,8vw,3.6rem)}.studio label{display:grid;gap:.4rem;font-weight:600}.studio small{color:var(--mute);font-weight:400}.studio button{justify-self:start}.result{display:none;gap:1rem;padding:1rem;border:2px dashed var(--gold);border-radius:18px;overflow-wrap:anywhere}.result.show{display:grid}.qr{background:white;padding:12px;border-radius:12px;width:max-content;max-width:100%}.qr img{display:block;max-width:100%;height:auto}.muted{color:var(--mute)}
+</style>
+</head>
+<body>
+<section class="studio">
+<p class="muted">A little surprise, made personal ✨</p>
+<h1>Birthday QR Studio</h1>
+<p class="muted">Fill in the details and create a unique birthday page and QR code for each friend.</p>
+<form id="birthdayForm" style="display:grid;gap:1rem">
+<label>Friend's name<input name="name" required maxlength="50" placeholder="e.g. Reshma Sree"></label>
+<label>Short introduction<textarea name="intro" rows="3" maxlength="240" placeholder="A little website made just for you..."></textarea></label>
+<label>Personal birthday message<textarea name="message" rows="3" maxlength="500" placeholder="Wishing you a wonderful birthday..."></textarea></label>
+<label>Final gift message<textarea name="gift" rows="3" maxlength="500" placeholder="I wanted to gift you something special..."></textarea></label>
+<button type="submit">Create birthday QR ✨</button>
+</form>
+<div class="result" id="result" aria-live="polite">
+<h2>Your birthday page is ready!</h2><p class="muted">Scan this QR code or share the link with your friend.</p>
+<div class="qr" id="qrcode"></div>
+<p><a id="pageLink" href="#" target="_blank" rel="noopener">Open birthday page</a></p>
+<div class="row"><button type="button" class="ghost" id="copyLink">Copy link</button><button type="button" class="ghost" id="downloadQr">Download QR</button></div>
+</div>
+<p class="muted"><small>Note: Host this folder online before generating QR codes for friends. The QR code must point to a public website URL.</small></p>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="generator.js"></script>
+</body></html>
