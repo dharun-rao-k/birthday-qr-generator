@@ -44,6 +44,8 @@ $("next").onclick = () => { photoIndex = (photoIndex + 1) % photos.length; showP
 showPhoto();
 
 const audio = $("au");
+audio.src=new URL("./assets/music.mp3",document.baseURI).href;
+audio.load();
 const musicButton = $("mus");
 
 function startMusicFromUserAction() {
